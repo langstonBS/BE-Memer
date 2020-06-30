@@ -41,13 +41,11 @@ describe('Meme routs', () => {
       });
   });
   
-  it('updates a meme vea PUT', async() => {
-    // only allowed to update cookies you've created
-   
+  it('updates a meme vea PUT', async() => {   
     const memes = prepare(await Meme.findOne());
 
     return request(app)
-      .put((`/api/v1/memes/${memes._id}`))
+      .patch((`/api/v1/memes/${memes._id}`))
       .send({ top: 'the top is here', })
       .then(res => {
         expect(res.body).toEqual({
