@@ -4,7 +4,7 @@ const request = require('supertest');
 const Meme = require('../lib/models/Meme');
 
 describe('Meme routs', () => {
-  it('creates a meme via POST', async() => {  
+  it('creates a meme via POST', async() => {
     return request(app)
       .post('/api/v1/memes')
       .send({
@@ -40,5 +40,20 @@ describe('Meme routs', () => {
         expect(res.body).toEqual(memes);
       });
   });
-});
+  
+  it('updates a meme vea PUT', async() => {
+    // only allowed to update cookies you've created
+   
+    const memes = prepare(await Meme.findOne());
 
+    return request(app)
+      .put((`/api/v1/memes/${memes._id}`))
+      .send({ top: 'the top is here', })
+      .then(res => {
+        expect(res.body).toEqual({
+          ...memes,
+          top: 'the top is here'
+        });
+      });
+  });
+});
