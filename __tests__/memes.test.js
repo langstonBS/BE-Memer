@@ -41,7 +41,7 @@ describe('Meme routs', () => {
       });
   });
   
-  it('updates a meme vea PUT', async() => {   
+  it('updates a meme vea PATCH', async() => {   
     const memes = prepare(await Meme.findOne());
 
     return request(app)
@@ -52,6 +52,16 @@ describe('Meme routs', () => {
           ...memes,
           top: 'the top is here'
         });
+      });
+  });
+
+  it('deletes a Meme via DELETE', async() => {
+    const memes = prepare(await Meme.findOne());
+
+    return request(app)
+      .delete(`/api/v1/cookies/${memes._id}`)
+      .then(res => {
+        expect(res.body).toEqual(memes);
       });
   });
 });
