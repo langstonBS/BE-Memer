@@ -1,4 +1,4 @@
-const { prepare } = require('../db/data-helpers');
+require('../db/data-helpers');
 const app = require('../lib/app');
 const request = require('supertest');
 
