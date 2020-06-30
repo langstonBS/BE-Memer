@@ -1,22 +1,27 @@
-const { MongoMemoryServer } = require('mongodb-memory-server');
-const mongod = new MongoMemoryServer();
-const mongoose = require('mongoose');
-const connect = require('../lib/utils/connect');
-const Meme = require('../lib/models/Meme.js');
+const { prepare } = require('../db/data-helpers');
+const app = require('../lib/app');
+const request = require('supertest');
 
-describe('extramember routes', () => {
-  beforeAll(async() => {
-    const uri = await mongod.getUri();
-    return connect(uri);
+describe('Meme routs', () => {
+  it('creates a meme via POST', async() => {
+      
+    
+    return request(app)
+      .post('/api/v1/memes')
+      .send({
+        top: 'this is the top',
+        image: 'this is the middle',
+        bottom: 'this is the the bottom',
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.anything(),
+          top: 'this is the top',
+          image: 'this is the middle',
+          bottom: 'this is the the bottom',
+          __v: 0
+        });
+      });
   });
-
-  beforeEach(() => {
-    return mongoose.connection.dropDatabase();
-  });
-
-  afterAll(async() => {
-    await mongoose.connection.close();
-    return mongod.stop();
-  });
-
 });
+
