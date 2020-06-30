@@ -59,7 +59,7 @@ describe('Meme routs', () => {
     const memes = prepare(await Meme.findOne());
 
     return request(app)
-      .delete(`/api/v1/cookies/${memes._id}`)
+      .delete(`/api/v1/memes/${memes._id}`)
       .then(res => {
         expect(res.body).toEqual(memes);
       });
